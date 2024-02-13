@@ -1,0 +1,19 @@
+*{
+  font-size: 1vw;
+  text-align: center;
+  align-items: center;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+button {
+  margin: 0 0.3rem;
+}
+.mat-icon {
+  cursor: pointer;
+}
+
+.active-button {
+  background-color: #2d8a91 !important;
+}

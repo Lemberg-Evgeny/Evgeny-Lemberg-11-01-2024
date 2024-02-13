@@ -1,0 +1,16 @@
+[data-theme="light"] {
+  --background-color: rgb(255, 255, 255);
+  --background-text-color: #115c61;
+  --nav-color: #115c61;
+  --nav-btn-color: #67b3af;
+  --card-color: none;
+  
+}
+
+[data-theme="dark"] {
+  --background-color: #115c61;
+  --background-text-color: #67b3af;
+  --nav-color: #67b3af;
+  --nav-btn-color: #2d8a91;
+  --card-color: #2d8a91;
+}

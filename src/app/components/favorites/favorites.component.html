@@ -1,0 +1,30 @@
+<h1>Favorites</h1>
+<h2 *ngIf="favoritesIsEmpty; else elseBlock">Favorites list is empty</h2>
+<ng-template #elseBlock>
+  <div class="container">
+    <mat-card *ngFor="let item of weatherData">
+      <mat-card-header>
+        <mat-card-title> {{ item.locationName | uppercase }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img
+          mat-card-image
+          [src]="
+            'https://developer.accuweather.com/sites/default/files/' +
+            [
+              item.currentWeather.WeatherIcon > 9
+                ? item.currentWeather.WeatherIcon
+                : '0' + item.currentWeather.WeatherIcon
+            ] +
+            '-s.png'
+          "
+          alt="weather icon"
+        />
+        <h3>{{ item.currentWeather.WeatherText }}</h3>
+        {{ item.currentWeather.Temperature.Metric.Value }}°{{
+          item.currentWeather.Temperature.Metric.Unit
+        }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-template>

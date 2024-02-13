@@ -1,0 +1,107 @@
+<mat-progress-bar
+  *ngIf="isLoading"
+  color="primary"
+  mode="indeterminate"
+></mat-progress-bar>
+
+<mat-form-field appearance="outline" class="full-width">
+  <button
+    mat-icon-button
+    matPrefix
+    color="primary"
+    (click)="searchLocation(searchField.value)"
+    matTooltip="Find city"
+  >
+    <mat-icon
+      matPrefix
+      color="primary"
+      (click)="searchLocation(searchField.value)"
+      >search</mat-icon
+    >
+  </button>
+  <mat-label>Enter City</mat-label>
+
+  <input
+    matInput
+    placeholder="City..."
+    #searchField="ngModel"
+    [(ngModel)]="searchValue"
+    name="searchValue"
+    (keyup.enter)="searchLocation(searchField.value)"
+    (focus)="currentWeather = false"
+    pattern="[A-Za-z ]*"
+  />
+  <mat-error
+    *ngIf="searchField.invalid && searchValue && searchValue.trim() !== ''"
+    >Please enter Latin characters only.</mat-error
+  >
+</mat-form-field>
+
+<section *ngIf="currentWeather">
+  <mat-grid-list cols="2" rowHeight="5:1">
+    <mat-grid-tile>
+      <img
+        mat-card-image
+        [src]="
+          'https://developer.accuweather.com/sites/default/files/' +
+          [
+            currentWeather.WeatherIcon > 9
+              ? currentWeather.WeatherIcon
+              : '0' + currentWeather.WeatherIcon
+          ] +
+          '-s.png'
+        "
+        alt="weather icon"
+      />
+      <div>
+        <div>{{ searchField.value | uppercase }}</div>
+        <b>
+          {{ currentWeather.Temperature.Metric.Value }}°{{
+            currentWeather.Temperature.Metric.Unit
+          }}
+        </b>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button
+        mat-icon-button
+        (click)="toggleFavorite(searchField.value)"
+        [matTooltip]="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+      >
+        <mat-icon color="primary">{{
+          isFavorite ? "favorite" : "favorite_border"
+        }}</mat-icon>
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <h2 class="center">{{ currentWeather.WeatherText }}</h2>
+  <mat-divider></mat-divider>
+
+  <div class="card-container">
+    <mat-card *ngFor="let day of forecast">
+      <mat-card-header>
+        <mat-card-title>
+          <span> {{ day.Date | date : "EEE, d/MMM" }}</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img
+          mat-card-image
+          [src]="
+            'https://developer.accuweather.com/sites/default/files/' +
+            [day.Day.Icon > 9 ? day.Day.Icon : '0' + day.Day.Icon] +
+            '-s.png'
+          "
+          alt="weather icon"
+        />
+        <p>{{ day.Day.IconPhrase }}</p>
+        <div>
+          Minimum: <b>{{ day.Temperature.Minimum.Value }}°C</b>
+        </div>
+        <div>
+          Maximum: <b>{{ day.Temperature.Maximum.Value }}°C</b>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

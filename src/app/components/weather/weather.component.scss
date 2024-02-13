@@ -1,0 +1,59 @@
+* {
+  font-size: 1vw;
+}
+
+.full-width {
+  margin: 0 auto;
+  width: 30%;
+  display: block;
+}
+
+.mat-mdc-form-field {
+  margin-top: 5em;
+}
+
+section {
+  border-radius: 5px;
+  margin: 0 auto;
+  padding: 2em;
+  width: 60%;
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+  background-color: var(--card-color);
+  color: black;
+
+  align-items: center; /* Добавлено */
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    img {
+      display: block;
+      margin: auto;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  .mdc-card {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-color);
+    color: black;
+
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 0.3rem;
+  }
+}
+
+.mat-divider {
+  margin: 5rem;
+}

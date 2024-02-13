@@ -1,0 +1,34 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Herolo Weather Task</span>
+    <span class="spacer"></span>
+
+    <mat-icon
+      style="margin-right: 5px"
+      (click)="onThemeSwitchChange()"
+      matTooltip="Switch mode"
+      >{{ isLightTheme ? "light_mode" : "dark_mode" }}</mat-icon
+    >
+
+    <button
+      mat-raised-button
+      [routerLink]="['/']"
+      color="accent"
+      routerLinkActive="active"
+      [ngClass]="{ 'active-button': isActive('/') }"
+    >
+      <mat-icon>home</mat-icon>
+      Home
+    </button>
+    <button
+      mat-raised-button
+      [routerLink]="['/favorites']"
+      color="accent"
+      routerLinkActive="active"
+      [ngClass]="{ 'active-button': isActive('/favorites') }"
+    >
+      <mat-icon>favorite</mat-icon>
+      Favorites
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

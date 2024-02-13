@@ -1,0 +1,60 @@
+@import "themes";
+$dark-green: #115c61;
+// $green: #2d8a91;
+// $light-green: #67b3af;
+// $rr: #ff0000 !default;
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background-color);
+  color: var(--background-text-color);
+  // font-size: 1vw;
+}
+
+@import "@angular/material/theming";
+@include mat-core();
+$green-palette: (
+  100: var(--nav-color),
+  500: var(--nav-btn-color),
+  700: #2d8a91,
+  contrast: (
+    100: rgba(white, 0.87),
+    500: rgba(white, 0.87),
+    700: rgba(white, 0.87),
+  ),
+);
+
+$primary: mat-palette($green-palette, 100);
+$accent: mat-palette($green-palette, 500);
+$warn: mat-palette($mat-red, 500);
+
+
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.color-green {
+  color: $dark-green;
+}
+
+.mat-mdc-progress-bar {
+  position: absolute;
+  top: 0px;
+  z-index: 10;
+}
+
+img{
+  width: 6vw;
+}
