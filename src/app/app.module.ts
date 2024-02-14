@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+// import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +18,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -29,9 +29,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { WeatherService } from './services/weather.service';
 import { FavoriteService } from './services/favorite.service';
-
-import { weatherReducer } from './store/reducers/weather.reducer';
-import { WeatherEffects } from './store/effects/weather.effects';
+import { reducers } from './store/reducers';
 
 @NgModule({
   declarations: [
@@ -58,8 +56,7 @@ import { WeatherEffects } from './store/effects/weather.effects';
     MatSlideToggleModule,
     MatTooltipModule,
     MatSnackBarModule,
-    StoreModule.forRoot({ weather: weatherReducer }),
-    EffectsModule.forRoot([WeatherEffects]),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),

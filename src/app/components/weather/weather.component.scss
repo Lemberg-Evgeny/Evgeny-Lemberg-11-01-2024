@@ -16,12 +16,12 @@ section {
   border-radius: 5px;
   margin: 0 auto;
   padding: 2em;
-  width: 60%;
+  width: 70%;
   box-shadow: 0 0 10px rgb(0, 0, 0);
   background-color: var(--card-color);
   color: black;
 
-  align-items: center; /* Добавлено */
+  align-items: center;
 
   .card-container {
     display: flex;

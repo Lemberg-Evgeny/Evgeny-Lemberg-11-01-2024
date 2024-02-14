@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./weather.component.scss'],
 })
 export class WeatherComponent implements OnInit {
-  locationQuery: string = '';
   locationKey: string = '';
   currentWeather: any;
   forecast: any[] = [];
@@ -30,7 +29,6 @@ export class WeatherComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.getWeatherDetails(this.searchValue);
   }
 
@@ -51,16 +49,19 @@ export class WeatherComponent implements OnInit {
               .subscribe((currentWeather) => {
                 this.currentWeather = currentWeather[0];
               });
+
             this.forecastSubscription = this.weatherService
               .get5DayForecast(this.locationKey)
               .subscribe((forecast) => {
                 this.forecast = forecast.DailyForecasts;
               });
 
-            this.isFavorite = this.favoriteService.isLocationInFavorites({
+            const favoriteLocation: FavoriteLocation = {
               locationKey: this.locationKey,
               locationName: location,
-            });
+            };
+
+            this.isFavorite = this.favoriteService.checkIfFavorite(favoriteLocation);
           }
         },
         error: (err) => {
@@ -77,11 +78,14 @@ export class WeatherComponent implements OnInit {
       locationKey: this.locationKey,
       locationName: location,
     };
-    this.isFavorite
-      ? (this.favoriteService.removeFromFavorites(favoriteLocation),
-        this.openSnackBar(`${location} Removed from favorites`, 'OK'))
-      : (this.favoriteService.addToFavorites(favoriteLocation),
-        this.openSnackBar(`${location} Added to favorites`, 'OK'));
+
+    if (this.isFavorite) {
+      this.favoriteService.removeFromFavorites(favoriteLocation);
+      this.openSnackBar(`${location} Removed from favorites`, 'OK');
+    } else {
+      this.favoriteService.addToFavorites(favoriteLocation);
+      this.openSnackBar(`${location} Added to favorites`, 'OK');
+    }
 
     this.isFavorite = !this.isFavorite;
   }

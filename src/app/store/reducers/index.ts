@@ -1,10 +1,11 @@
-import { combineReducers } from '@ngrx/store';
-import { favoritesReducer } from './favorites.reducer';
-import { weatherReducer } from './weather.reducer';
 
-export const rootReducer = combineReducers({
-  favorites: favoritesReducer,
-  weather: weatherReducer,
-});
+import { ActionReducerMap } from '@ngrx/store';
+import * as fromFavorites from './favorites.reducer';
 
-export type AppState = ReturnType<typeof rootReducer>;
+export interface AppState {
+  favorites: fromFavorites.FavoritesState;
+}
+
+export const reducers: ActionReducerMap<AppState> = {
+  favorites: fromFavorites.reducer
+};

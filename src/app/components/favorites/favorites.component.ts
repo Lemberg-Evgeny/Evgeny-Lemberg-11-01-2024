@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription, forkJoin } from 'rxjs';
-import {
-  FavoriteService,
-  FavoriteLocation,
-} from 'src/app/services/favorite.service';
+import { Observable, forkJoin } from 'rxjs';
+import { FavoriteLocation } from 'src/app/models/favorite-location.model';
+import { FavoriteService } from 'src/app/services/favorite.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -12,10 +10,9 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./favorites.component.scss'],
 })
 export class FavoritesComponent implements OnInit {
-  favoriteLocations: FavoriteLocation[] = [];
+  favorites: FavoriteLocation[] = [];
   weatherData: any[] = [];
-  favoritesIsEmpty: boolean = false;
-  private weatherSubscription: Subscription | undefined;
+  favoritesIsEmpty: boolean = true;
 
   constructor(
     private favoriteService: FavoriteService,
@@ -23,41 +20,36 @@ export class FavoritesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.favoriteLocations = this.favoriteService.getFavorites();
-    this.getWeatherForFavorites();
+    this.favoriteService.getFavorites().subscribe((favorites) => {
+      if (favorites.length > 0) {
+        this.favoritesIsEmpty = false;
+        this.favorites = favorites;
+        this.getWeatherForFavorites();
+      }
+    });
   }
 
   getWeatherForFavorites(): void {
-    if (this.favoriteLocations.length === 0) {
-      return;
-    }
+    const requests: Observable<any>[] = this.favorites.map((location) => {
+      return this.weatherService.getCurrentWeather(location.locationKey);
+    });
 
-    const requests = this.favoriteLocations.map((location) =>
-      this.weatherService.getCurrentWeather(location.locationKey)
-    );
-
-    this.weatherSubscription = forkJoin(requests).subscribe({
+   forkJoin(requests).subscribe({
       next: (responses: any[]) => {
         responses.forEach((currentWeather, index) => {
           const favoriteLocation = {
-            locationName: this.favoriteLocations[index].locationName,
+            locationName: this.favorites[index].locationName,
             currentWeather: currentWeather[0],
           };
           this.weatherData.push(favoriteLocation);
-          console.log('wd', this.weatherData);
         });
       },
       error: (error) => {
         console.error('Error fetching weather data for favorites:', error);
       },
-    });
-
-    console.log('fl', this.favoriteLocations);
+    })
+ 
   }
 
-  ngOnDestroy(): void {
-    if (this.weatherSubscription) {
-      this.weatherSubscription.unsubscribe();
-    }
-  }
+
 }
